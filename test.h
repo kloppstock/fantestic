@@ -221,4 +221,4 @@ void register_test(int (*test)(), const char *name);
 #ifdef __cplusplus
 }
 #endif
-#endif // TEST_H
+#endif /* TEST_H */
