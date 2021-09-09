@@ -8,7 +8,7 @@ int assert_equals_int(const int32_t expected, const int32_t actual,
   if (expected == actual)
     return 1;
 
-  fprintf(stdout, "ERROR (%s@%d): Expected %d, but was %d!\n", filename, line,
+  fprintf(stdout, "ERROR (%s@%d): %d != %d\n", filename, line,
           expected, actual);
 
   return 0;
@@ -145,14 +145,14 @@ int assert_equals_file(const char *expected_path, const char *actual_path,
 int assert_equals_file_mem(const char *expected_path, const void *actual,
                            size_t len, const char *filename, int line) {
   if (expected_path == NULL || actual == NULL) {
-    fprintf(stdout, "ERROR (%s@%d): one path is empty!\n", filename, line);
+    fprintf(stdout, "ERROR (%s@%d): One path is empty!\n", filename, line);
     return 0;
   }
 
   char *buffer_expected = (char *)malloc(sizeof(char) * len);
   if (buffer_expected == NULL) {
     fprintf(stderr,
-            "FATAL ERROR (%s@%d): couldn't allocate enough memory! Please "
+            "FATAL ERROR (%s@%d): Couldn't allocate enough memory! Please "
             "rerun the tests with more memory!\n",
             filename, line);
     return 0;
@@ -161,7 +161,7 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
   char *buffer_actual = (char *)malloc(sizeof(char) * len);
   if (buffer_actual == NULL) {
     fprintf(stderr,
-            "FATAL ERROR (%s@%d): couldn't allocate enough memory! Please "
+            "FATAL ERROR (%s@%d): Couldn't allocate enough memory! Please "
             "rerun the tests with more memory!\n",
             filename, line);
     free(buffer_expected);
@@ -170,7 +170,7 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
 
   FILE *f_expected = fopen(expected_path, "r");
   if (f_expected == NULL) {
-    fprintf(stderr, "FATAL ERROR (%s@%d): couldn't open file '%s'!\n", filename,
+    fprintf(stderr, "FATAL ERROR (%s@%d): Couldn't open file '%s'!\n", filename,
             line, expected_path);
     free(buffer_expected);
     free(buffer_actual);
