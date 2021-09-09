@@ -113,6 +113,19 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
   }
 
 /*!
+ * \brief Returns true if the actual and the expected string. Returns false
+ * otherwise and prints an error string.
+ * \param E The expected string.
+ * \param A The actual string.
+ * \return True (1) if the expected matches the actual, false (0) otherwise.
+ */
+#define ASSERT_EQUALS_STR(E, A)                                                \
+  {                                                                            \
+    if (!assert_equals_str(E, A, __FILE__, __LINE__))                          \
+      return 0;                                                                \
+  }
+
+/*!
  * \brief Returns true if the actual value and the expected memory regions match
  * in content. Returns false otherwise and prints an error string.
  * \param E The expected value.

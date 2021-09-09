@@ -8,8 +8,8 @@ int assert_equals_int(const int32_t expected, const int32_t actual,
   if (expected == actual)
     return 1;
 
-  fprintf(stdout, "ERROR (%s@%d): %d != %d\n", filename, line,
-          expected, actual);
+  fprintf(stdout, "ERROR (%s@%d): %d != %d\n", filename, line, expected,
+          actual);
 
   return 0;
 }
@@ -71,7 +71,7 @@ int assert_equals_file(const char *expected_path, const char *actual_path,
   FILE *f_actual;
   size_t size_expected, size_actual;
 
-    if (expected_path == actual_path)
+  if (expected_path == actual_path)
     return 1;
 
   if (expected_path == NULL || actual_path == NULL) {
@@ -117,12 +117,11 @@ int assert_equals_file(const char *expected_path, const char *actual_path,
     return 0;
   }
 
-  size_expected =
-      fread(buffer_expected, sizeof(char), max_size, f_expected);
+  size_expected = fread(buffer_expected, sizeof(char), max_size, f_expected);
   size_actual = fread(buffer_actual, sizeof(char), max_size, f_actual);
 
   if (size_expected != size_actual) {
-    fprintf(stdout, "ERROR (%s@%d): '%s' != '%s'\n", filename, line,
+    fprintf(stdout, "ERROR (%s@%d): %s != %s\n", filename, line,
             expected_path, actual_path);
     free(buffer_expected);
     free(buffer_actual);
@@ -139,7 +138,7 @@ int assert_equals_file(const char *expected_path, const char *actual_path,
     return 1;
   }
 
-  fprintf(stdout, "ERROR (%s@%d): '%s' != '%s'\n", filename, line,
+  fprintf(stdout, "ERROR (%s@%d): %s != %s\n", filename, line,
           expected_path, actual_path);
   free(buffer_expected);
   free(buffer_actual);
@@ -155,7 +154,7 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
   FILE *f_expected;
   size_t size_expected;
 
-    if (expected_path == NULL || actual == NULL) {
+  if (expected_path == NULL || actual == NULL) {
     fprintf(stdout, "ERROR (%s@%d): One path is empty!\n", filename, line);
     return 0;
   }
@@ -216,33 +215,35 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
 }
 
 void register_test(int (*test)(), const char *name) {
-    struct TestFunction t;
+  struct TestFunction t;
 
-    if(current_test_count >= MAX_TEST_COUNT) {
-        fprintf(stderr, "FATAL ERROR: Maximum number of tests reached! Consider increasing the MAX_TEST_COUNT variable. \n");
-        return;
-    }
+  if (current_test_count >= MAX_TEST_COUNT) {
+    fprintf(stderr, "FATAL ERROR: Maximum number of tests reached! Consider "
+                    "increasing the MAX_TEST_COUNT variable. \n");
+    return;
+  }
 
-    t.test = test;
-    t.name = name;
-    test_array[current_test_count++] = t;
+  t.test = test;
+  t.name = name;
+  test_array[current_test_count++] = t;
 }
 
-int main(int argc, const char* argv[]) {
-    unsigned int passed = 0;
-    unsigned int i;
+int main(int argc, const char *argv[]) {
+  unsigned int passed = 0;
+  unsigned int i;
 
-    (void)argc;
-    (void)argv;
+  (void)argc;
+  (void)argv;
 
-    /* execute all tests */
-    for(i = 0; i < current_test_count; ++i) {
-        fprintf(stdout, "Executing %s\n", test_array[i].name);
-        if(test_array[i].test())
-            ++passed;
-    }
+  /* execute all tests */
+  for (i = 0; i < current_test_count; ++i) {
+    fprintf(stdout, "Executing %s\n", test_array[i].name);
+    if (test_array[i].test())
+      ++passed;
+  }
 
-    fprintf(stdout, "Total: %lu\tPassed: %d\tFailed: %lu\n", current_test_count, passed, current_test_count - passed);
+  fprintf(stdout, "Total: %lu\tPassed: %d\tFailed: %lu\n", current_test_count,
+          passed, current_test_count - passed);
 
-    return 0;
+  return 0;
 }
