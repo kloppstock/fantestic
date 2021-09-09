@@ -41,6 +41,10 @@ TEST(fail_test) {
 }
 ```
 
+## Requirements
+
+Only a C89 compliant C compiler with support for the `__attribute__((constructor))` is needed. Any somewhat modern GCC, Clang and ICC should support this. 
+
 ## License
 
 This project is licensed under the BSD 3-clause license. A copy of this can be found in the [LICENSE](LICENSE) file.
