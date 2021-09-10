@@ -1,31 +1,42 @@
 #include "test.h"
 
-struct TestFunction test_array[MAX_TEST_COUNT] = {0};
-size_t current_test_count = 0;
+struct FantesticTestFunction test_array[MAX_TEST_COUNT] = {0};
+size_t fantestic_current_test_count = 0;
 
-int assert_equals_int(const int32_t expected, const int32_t actual,
+int fantestic_assert_equals_int(const int64_t expected, const int64_t actual,
                       const char *filename, int line) {
   if (expected == actual)
     return 1;
 
-  fprintf(stdout, "ERROR (%s@%d): %d != %d\n", filename, line, expected,
+  fprintf(stdout, "ERROR (%s@%d): %lld != %lld\n", filename, line, expected,
           actual);
 
   return 0;
 }
 
-int assert_equals_unsigned_int(const uint32_t expected, const uint32_t actual,
+int fantestic_assert_equals_unsigned_int(const uint64_t expected, const uint64_t actual,
                                const char *filename, int line) {
   if (expected == actual)
     return 1;
 
-  fprintf(stdout, "ERROR (%s@%d): %u != %u\n", filename, line, expected,
+  fprintf(stdout, "ERROR (%s@%d): %llu != %llu\n", filename, line, expected,
           actual);
 
   return 0;
 }
 
-int assert_equals_str(const char *expected, const char *actual,
+int fantestic_assert_equals_float(const long double expected, const long double actual,
+                               const char *filename, int line) {
+  if (expected == actual)
+    return 1;
+
+  fprintf(stdout, "ERROR (%s@%d): %Lf != %Lf\n", filename, line, expected,
+          actual);
+
+  return 0;
+}
+
+int fantestic_assert_equals_str(const char *expected, const char *actual,
                       const char *filename, int line) {
   if (expected == actual)
     return 1;
@@ -44,7 +55,7 @@ int assert_equals_str(const char *expected, const char *actual,
   return 0;
 }
 
-int assert_equals_mem(const void *expected, const void *actual, size_t len,
+int fantestic_assert_equals_mem(const void *expected, const void *actual, size_t len,
                       const char *filename, int line) {
   if (expected == actual)
     return 1;
@@ -63,7 +74,7 @@ int assert_equals_mem(const void *expected, const void *actual, size_t len,
   return 0;
 }
 
-int assert_equals_file(const char *expected_path, const char *actual_path,
+int fantestic_assert_equals_file(const char *expected_path, const char *actual_path,
                        size_t max_size, const char *filename, int line) {
   char *buffer_expected;
   char *buffer_actual;
@@ -147,7 +158,7 @@ int assert_equals_file(const char *expected_path, const char *actual_path,
   return 0;
 }
 
-int assert_equals_file_mem(const char *expected_path, const void *actual,
+int fantestic_assert_equals_file_mem(const char *expected_path, const void *actual,
                            size_t len, const char *filename, int line) {
   char *buffer_expected;
   char *buffer_actual;
@@ -214,10 +225,10 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
   return 0;
 }
 
-void register_test(int (*test)(), const char *name) {
-  struct TestFunction t;
+void fantestic_register_test(int (*test)(void), const char *name) {
+  struct FantesticTestFunction t;
 
-  if (current_test_count >= MAX_TEST_COUNT) {
+  if (fantestic_current_test_count >= MAX_TEST_COUNT) {
     fprintf(stderr, "FATAL ERROR: Maximum number of tests reached! Consider "
                     "increasing the MAX_TEST_COUNT variable. \n");
     return;
@@ -225,7 +236,7 @@ void register_test(int (*test)(), const char *name) {
 
   t.test = test;
   t.name = name;
-  test_array[current_test_count++] = t;
+  test_array[fantestic_current_test_count++] = t;
 }
 
 int main(int argc, const char *argv[]) {
@@ -236,14 +247,14 @@ int main(int argc, const char *argv[]) {
   (void)argv;
 
   /* execute all tests */
-  for (i = 0; i < current_test_count; ++i) {
+  for (i = 0; i < fantestic_current_test_count; ++i) {
     fprintf(stdout, "Executing %s\n", test_array[i].name);
     if (test_array[i].test())
       ++passed;
   }
 
-  fprintf(stdout, "Total: %lu\tPassed: %d\tFailed: %lu\n", current_test_count,
-          passed, current_test_count - passed);
+  fprintf(stdout, "Total: %lu\tPassed: %d\tFailed: %lu\n", fantestic_current_test_count,
+          passed, fantestic_current_test_count - passed);
 
   return 0;
 }

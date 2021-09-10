@@ -19,8 +19,8 @@ extern "C" {
  * \param line The line of the assert statement.
  * \return True (1) if the expected matches the actual, false (0) otherwise.
  */
-int assert_equals_int(const int32_t expected, const int32_t actual,
-                      const char *filename, int line);
+int fantestic_assert_equals_int(const int64_t expected, const int64_t actual,
+                                const char *filename, int line);
 
 /*!
  * \brief Returns true if the actual value and the expected unsigned integer
@@ -31,8 +31,22 @@ int assert_equals_int(const int32_t expected, const int32_t actual,
  * \param line The line of the assert statement.
  * \return True (1) if the expected matches the actual, false (0) otherwise.
  */
-int assert_equals_unsigned_int(const uint32_t expected, const uint32_t actual,
-                               const char *filename, int line);
+int fantestic_assert_equals_unsigned_int(const uint64_t expected,
+                                         const uint64_t actual,
+                                         const char *filename, int line);
+
+/*!
+ * \brief Returns true if the actual value and the expected floating point
+ * value match. Returns false otherwise and prints an error string.
+ * \param expected The expected value.
+ * \param actual The actual value.
+ * \param filename The name of the testfile.
+ * \param line The line of the assert statement.
+ * \return True (1) if the expected matches the actual, false (0) otherwise.
+ */
+int fantestic_assert_equals_float(const long double expected,
+                                  const long double actual,
+                                  const char *filename, int line);
 
 /*!
  * \brief Returns true if the actual value and the expected strings match.
@@ -43,8 +57,8 @@ int assert_equals_unsigned_int(const uint32_t expected, const uint32_t actual,
  * \param line The line of the assert statement.
  * \return True (1) if the expected matches the actual, false (0) otherwise.
  */
-int assert_equals_str(const char *expected, const char *actual,
-                      const char *filename, int line);
+int fantestic_assert_equals_str(const char *expected, const char *actual,
+                                const char *filename, int line);
 
 /*!
  * \brief Returns true if the actual value and the expected memory regions match
@@ -56,8 +70,8 @@ int assert_equals_str(const char *expected, const char *actual,
  * \param line The line of the assert statement.
  * \return True (1) if the expected matches the actual, false (0) otherwise.
  */
-int assert_equals_mem(const void *expected, const void *actual, size_t len,
-                      const char *filename, int line);
+int fantestic_assert_equals_mem(const void *expected, const void *actual,
+                                size_t len, const char *filename, int line);
 
 /*!
  * \brief Returns true if the actual value and the expected files match. Returns
@@ -69,8 +83,9 @@ int assert_equals_mem(const void *expected, const void *actual, size_t len,
  * \param line The line of the assert statement.
  * \return True (1) if the expected matches the actual, false (0) otherwise.
  */
-int assert_equals_file(const char *expected_path, const char *actual_path,
-                       size_t max_size, const char *filename, int line);
+int fantestic_assert_equals_file(const char *expected_path,
+                                 const char *actual_path, size_t max_size,
+                                 const char *filename, int line);
 
 /*!
  * \brief Returns true if the actual memory region and the expected file match
@@ -83,8 +98,9 @@ int assert_equals_file(const char *expected_path, const char *actual_path,
  * \param line The line of the assert statement.
  * \return True (1) if the expected matches the actual, false (0) otherwise.
  */
-int assert_equals_file_mem(const char *expected_path, const void *actual,
-                           size_t max_size, const char *filename, int line);
+int fantestic_assert_equals_file_mem(const char *expected_path,
+                                     const void *actual, size_t max_size,
+                                     const char *filename, int line);
 
 /*!
  * \brief Returns true if the actual value and the expected integer value match.
@@ -95,7 +111,7 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
  */
 #define ASSERT_EQUALS_INT(E, A)                                                \
   {                                                                            \
-    if (!assert_equals_int(E, A, __FILE__, __LINE__))                          \
+    if (!fantestic_assert_equals_int(E, A, __FILE__, __LINE__))                \
       return 0;                                                                \
   }
 
@@ -108,7 +124,20 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
  */
 #define ASSERT_EQUALS_UNSIGNED_INT(E, A)                                       \
   {                                                                            \
-    if (!assert_equals_unsigned_int(E, A, __FILE__, __LINE__))                 \
+    if (!fantestic_assert_equals_unsigned_int(E, A, __FILE__, __LINE__))       \
+      return 0;                                                                \
+  }
+
+/*!
+ * \brief Returns true if the actual value and the expected floating point
+ * value match. Returns false otherwise and prints an error string.
+ * \param E The expected value.
+ * \param A The actual value.
+ * \return True (1) if the expected matches the actual, false (0) otherwise.
+ */
+#define ASSERT_EQUALS_FLOAT(E, A)                                              \
+  {                                                                            \
+    if (!fantestic_assert_equals_float(E, A, __FILE__, __LINE__))              \
       return 0;                                                                \
   }
 
@@ -121,7 +150,7 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
  */
 #define ASSERT_EQUALS_STR(E, A)                                                \
   {                                                                            \
-    if (!assert_equals_str(E, A, __FILE__, __LINE__))                          \
+    if (!fantestic_assert_equals_str(E, A, __FILE__, __LINE__))                \
       return 0;                                                                \
   }
 
@@ -135,7 +164,7 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
  */
 #define ASSERT_EQUALS_MEM(E, A, L)                                             \
   {                                                                            \
-    if (!assert_equals_mem(E, A, L, __FILE__, __LINE__))                       \
+    if (!fantestic_assert_equals_mem(E, A, L, __FILE__, __LINE__))             \
       return 0;                                                                \
   }
 
@@ -149,7 +178,7 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
  */
 #define ASSERT_EQUALS_FILE(E, A, L)                                            \
   {                                                                            \
-    if (!assert_equals_file(E, A, L, __FILE__, __LINE__))                      \
+    if (!fantestic_assert_equals_file(E, A, L, __FILE__, __LINE__))            \
       return 0;                                                                \
   }
 
@@ -164,7 +193,7 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
  */
 #define ASSERT_EQUALS_FILE_MEM(E, A, L)                                        \
   {                                                                            \
-    if (!assert_equals_file_mem(E, A, L, __FILE__, __LINE__))                  \
+    if (!fantestic_assert_equals_file_mem(E, A, L, __FILE__, __LINE__))        \
       return 0;                                                                \
   }
 
@@ -184,13 +213,13 @@ int assert_equals_file_mem(const char *expected_path, const void *actual,
   { return 1; }
 
 /*!
- * \brief The TestFunction struct.
+ * \brief The FantesticTestFunction struct.
  */
-struct TestFunction {
+struct FantesticTestFunction {
   /*!
    * \brief test The pointer to the test function.
    */
-  int (*test)();
+  int (*test)(void);
 
   /*!
    * \brief name The test name.
@@ -206,19 +235,19 @@ struct TestFunction {
 /*!
  * \brief test_array Holds all tests.
  */
-extern struct TestFunction test_array[MAX_TEST_COUNT];
+extern struct FantesticTestFunction fantestic_test_array[MAX_TEST_COUNT];
 
 /*!
  * \brief current_test_count Counts how many tests currently exist.
  */
-extern size_t current_test_count;
+extern size_t fantestic_current_test_count;
 
 /*!
  * \brief Register a new test.
  * \param test The test function pointer.
  * \param name The name of the test.
  */
-void register_test(int (*test)(), const char *name);
+void fantestic_register_test(int (*test)(void), const char *name);
 
 /*!
  * \brief Creates the test function and registers it.
@@ -226,8 +255,8 @@ void register_test(int (*test)(), const char *name);
  */
 #define TEST(NAME)                                                             \
   int NAME();                                                                  \
-  __attribute__((constructor)) void register_##NAME() {                        \
-    register_test(NAME, #NAME);                                                \
+  __attribute__((constructor)) static void fantestic_register_##NAME() {       \
+    fantestic_register_test(NAME, #NAME);                                      \
   }                                                                            \
   int NAME()
 

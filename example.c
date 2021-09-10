@@ -14,6 +14,12 @@ TEST(example_assert) {
     PASS();
 }
 
+TEST(example_float) {
+    ASSERT_EQUALS_FLOAT(1., 1.);
+    ASSERT_EQUALS_FLOAT(1.1, 1.2);
+    PASS();
+}
+
 TEST(example_str) {
     const char* str1 = "This is a string";
     const char* str2 = "This is a string";
