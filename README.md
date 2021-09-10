@@ -41,6 +41,8 @@ TEST(fail_test) {
 }
 ```
 
+More examples can be found in the [example.c](example.c) file. 
+
 ## Requirements
 
 Only a C89 compliant C compiler with support for the `__attribute__((constructor))` is needed. Any somewhat modern GCC, Clang and ICC should support this. 
